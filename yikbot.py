@@ -1,7 +1,7 @@
 import pyak
 import time
 
-class YikBot(pyak.Yakker):
+class Yikbot(pyak.Yakker):
     yakkers = []
 
     def boot(self):
@@ -39,6 +39,16 @@ class YikBot(pyak.Yakker):
                     print "DEBUG: Upvoted yak"
                     break
 
+    def premade_multi_upvote(self, message):
+        for yakker in self.yakkers:
+            print "DEBUG: yakker %s now scanning"
+            yaks = yakker.get_yaks()
+            for yak in yaks:
+                if yak.message == message:
+                    yak.upvote()
+                    print "DEBUG: Upvoted yak"
+                    break
+
 
     def multi_downvote(self, message, count):
         yakkers = []
@@ -53,6 +63,16 @@ class YikBot(pyak.Yakker):
         print "DEBUG: Waking up and beginning scan"
 
         for yakker in yakkers:
+            print "DEBUG: yakker %s now scanning"
+            yaks = yakker.get_yaks()
+            for yak in yaks:
+                if yak.message == message:
+                    yak.downvote()
+                    print "DEBUG: Downvoted yak"
+                    break
+
+    def premade_multi_downvote(self, message):
+        for yakker in self.yakkers:
             print "DEBUG: yakker %s now scanning"
             yaks = yakker.get_yaks()
             for yak in yaks:
