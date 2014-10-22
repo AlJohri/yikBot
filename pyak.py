@@ -231,7 +231,10 @@ class Yakker:
             "User-Agent": self.user_agent,
             "Accept-Encoding": "gzip",
         }
-        return requests.get(url, params=params, headers=headers)
+
+        response = requests.get(url, params=params, headers=headers)
+        print vars(response)
+        return response
 
     def post(self, page, params):
         url = self.base_url + page
@@ -243,7 +246,10 @@ class Yakker:
             "User-Agent": self.user_agent,
             "Accept-Encoding": "gzip",
         }
-        return requests.post(url, data=params, params=getparams, headers=headers)
+
+        response = requests.post(url, data=params, params=getparams, headers=headers)
+        print vars(response)
+        return response
 
     def get_yak_list(self, page, params):
         return self.parse_yaks(self.get(page, params).text)
