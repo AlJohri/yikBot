@@ -16,7 +16,7 @@ class Yikbot(pyak.Yakker):
             time.sleep(10)
 
     def respond(self, yak):
-        yak.add_comment("Hi, I'm yikBot")
+        yak.add_comment("Hi, I'm yikBot.\n--yB")
 
     def multi_upvote(self, message, count):
         yakkers = []
@@ -81,12 +81,29 @@ class Yikbot(pyak.Yakker):
                     print "DEBUG: Downvoted yak"
                     break
 
-    def create_yakkers(self, count):
+    def create_yakkers(self, count, location):
         for i in range(0, count):
             yakker = pyak.Yakker()
             print "DEBUG: Registered new user with id %s" % yakker.id
-            yakker.update_location(self.location)
+            yakker.update_location(location)
             self.yakkers.append(yakker)
+
+    def farm_yakkers(self, filename, count):
+        file = open(filename + ".txt", "a")
+        for i in range(0, count):
+            yakker = pyak.Yakker()
+            file.write(yakker.id)
+            file.write("\n")
+        file.close()
+
+    def harvest_yakkers(self, filename, count, location):
+        file = open(filename + ".txt", "r")
+        for i in range(0, count):
+            yakker_id = file.readline().rstrip('\n')
+            print yakker_id
+            yakker = pyak.Yakker(yakker_id, location, False)
+            self.yakkers.append(yakker)
+        file.close()
 
     def clear_yakkers(self):
         self.yakkers = []
