@@ -234,7 +234,7 @@ class Yakker:
         }
 
         response = requests.get(url, params=params, headers=headers)
-        if (HTTP_debugging)
+        if (self.HTTP_debugging):
             print vars(response)
         return response
 
@@ -250,7 +250,7 @@ class Yakker:
         }
 
         response = requests.post(url, data=params, params=getparams, headers=headers)
-        if (HTTP_debugging)
+        if (self.HTTP_debugging):
             print vars(response)
         return response
 
