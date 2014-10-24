@@ -2,10 +2,10 @@ import pyak
 import yikbot
 import time
 
-# Latitude and Longitude of location where bot should be localized
-ybLocation = pyak.Location("42.270340", "-83.742224")
-
 yb = yikbot.YikBot()
+
+# Latitude and Longitude of location where bot should be localized
+ybLocation = pyak.Location("42.275293", "-83.738609")
 yb.update_location(ybLocation)
 print "DEBUG: Registered yikBot with handle %s and id %s" % (yb.handle, yb.id)
 
