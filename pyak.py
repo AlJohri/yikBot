@@ -143,7 +143,8 @@ class Yak:
 
 class Yakker:
     base_url = "https://yikyakapp.com/api/"
-    user_agent = "Mozilla/5.1 (Linux; Android 4.0.4; Galaxy Nexus Build/IMM76B) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.133 Mobile Safari/535.19"
+    user_agent = "Dalvik/1.6.0 (Linux; U; Android 4.4.4; Google Nexus 4 - 4.4.4 - API 19 - 768x1280 Build/KTU84P)"
+    HTTP_debugging = False;
 
     def __init__(self, user_id=None, location=None, force_register=False):
         if location is None:
@@ -233,7 +234,8 @@ class Yakker:
         }
 
         response = requests.get(url, params=params, headers=headers)
-        print vars(response)
+        if (HTTP_debugging)
+            print vars(response)
         return response
 
     def post(self, page, params):
@@ -248,8 +250,17 @@ class Yakker:
         }
 
         response = requests.post(url, data=params, params=getparams, headers=headers)
-        print vars(response)
+        if (HTTP_debugging)
+            print vars(response)
         return response
+
+    def enable_HTTP_debugging(self):
+        self.HTTP_debugging = True
+        return
+
+    def disable_HTTP_debugging(self):
+        self.HTTP_debugging = False
+        return
 
     def get_yak_list(self, page, params):
         return self.parse_yaks(self.get(page, params).text)
