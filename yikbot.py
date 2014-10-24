@@ -30,23 +30,27 @@ class Yikbot(pyak.Yakker):
         time.sleep(90)
         print "DEBUG: Waking up and beginning scan"
 
+        upvotes = 0
         for yakker in yakkers:
-            print "DEBUG: yakker %s now scanning"
+            print "DEBUG: yakker %s now scanning" % yakker.id
             yaks = yakker.get_yaks()
             for yak in yaks:
                 if yak.message == message:
                     yak.upvote()
-                    print "DEBUG: Upvoted yak"
+                    upvotes += 1
+                    print "DEBUG: Upvoted yak %s times" % upvotes
                     break
 
     def premade_multi_upvote(self, message):
+        upvotes = 0
         for yakker in self.yakkers:
-            print "DEBUG: yakker %s now scanning"
+            print "DEBUG: yakker %s now scanning" % yakker.id
             yaks = yakker.get_yaks()
             for yak in yaks:
                 if yak.message == message:
                     yak.upvote()
-                    print "DEBUG: Upvoted yak"
+                    upvotes += 1
+                    print "DEBUG: Upvoted yak %s times" % upvotes
                     break
 
 
@@ -62,23 +66,27 @@ class Yikbot(pyak.Yakker):
         time.sleep(90)
         print "DEBUG: Waking up and beginning scan"
 
+        downvotes = 0;
         for yakker in yakkers:
-            print "DEBUG: yakker %s now scanning"
+            print "DEBUG: yakker %s now scanning" % yakker.id
             yaks = yakker.get_yaks()
             for yak in yaks:
                 if yak.message == message:
                     yak.downvote()
-                    print "DEBUG: Downvoted yak"
+                    downvotes += 1
+                    print "DEBUG: Downvoted yak %s times" % downvotes
                     break
 
     def premade_multi_downvote(self, message):
+        downvotes = 0
         for yakker in self.yakkers:
-            print "DEBUG: yakker %s now scanning"
+            print "DEBUG: yakker %s now scanning" % yakker.id
             yaks = yakker.get_yaks()
             for yak in yaks:
                 if yak.message == message:
                     yak.downvote()
-                    print "DEBUG: Downvoted yak"
+                    downvotes += 1
+                    print "DEBUG: Downvoted yak %s times" % downvotes
                     break
 
     def create_yakkers(self, count, location):
