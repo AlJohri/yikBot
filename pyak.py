@@ -6,6 +6,9 @@ import time
 import datetime
 import urllib
 import os
+import re
+
+from collections import OrderedDict
 
 from hashlib import sha1
 from hashlib import md5
@@ -164,7 +167,8 @@ class Yakker:
         #self.update_stats()
 
     def gen_id(self):
-        return md5(os.urandom(128)).hexdigest().upper()
+        x = md5(os.urandom(128)).hexdigest().upper()
+        return x
         # return re.sub(r"(.{8})(.{4})(.{4})(.{4})(.{12})", r"\1-\2-\3-\4-\5", x)
 
     def register_id_new(self, id):
@@ -225,6 +229,8 @@ class Yakker:
     def get(self, page, params):
         url = self.base_url + page
 
+        params['version'] = '2.1.001'
+
         hash, salt = self.sign_request(page, params)
         params['hash'] = hash
         params['salt'] = salt
@@ -234,6 +240,11 @@ class Yakker:
             "Accept-Encoding": "gzip",
         }
 
+        fields = ["lat", "long", "userID", "version", "salt", "hash"]
+        params = OrderedDict([(field, params[field]) for field in fields])
+
+        # params = OrderedDict([(k,v) for k,v in params.iteritems() if k in fields])
+
         response = requests.get(url, params=params, headers=headers, verify=False)
         if (self.HTTP_debugging):
             print vars(response)
@@ -241,6 +252,8 @@ class Yakker:
 
     def post(self, page, params):
         url = self.base_url + page
+
+        params['version'] = '2.1.001'
 
         hash, salt = self.post_sign_request(page, params)
         getparams = {'hash': hash, 'salt': salt}
