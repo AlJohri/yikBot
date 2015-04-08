@@ -130,7 +130,7 @@ class Yak:
 
     def get_comments(self):
         return self.client.get_comments(self.message_id)
-        
+
     def get_locationNum(self):
         return self.latitude - self.longitude
 
@@ -142,8 +142,8 @@ class Yak:
         print ("\n\t%s likes  |  Posted  %s  at  %s %s" % (self.likes, self.time, self.latitude, self.longitude))
 
 class Yakker:
-    base_url = "https://yikyakapp.com/api/"
-    user_agent = "Dalvik/1.6.0 (Linux; U; Android 4.4.4; Google Nexus 4 - 4.4.4 - API 19 - 768x1280 Build/KTU84P)"
+    base_url = "https://us-central-api.yikyakapi.net/api/"
+    user_agent = "Dalvik/1.6.0 (Linux; U; Android 4.2.2; GT-P5200 Build/JDQ39E)"
     HTTP_debugging = False;
 
     def __init__(self, user_id=None, location=None, force_register=False):
@@ -165,6 +165,7 @@ class Yakker:
 
     def gen_id(self):
         return md5(os.urandom(128)).hexdigest().upper()
+        # return re.sub(r"(.{8})(.{4})(.{4})(.{4})(.{12})", r"\1-\2-\3-\4-\5", x)
 
     def register_id_new(self, id):
         params = {
@@ -201,23 +202,23 @@ class Yakker:
         hash = base64.b64encode(h.digest())
 
         return hash, salt
-        
+
     def post_sign_request(self, page, params):
         key = "35FD04E8-B7B1-45C4-9886-94A75F4A2BB4"
-    
+
         #The salt is just the current time in seconds since epoch
         salt = str(int(time.time()))
-    
+
         #The message to be signed is essentially the request, with parameters sorted
         msg = "/api/" + page
-    
+
         #the salt is just appended directly
         msg += salt
-    
+
         #Calculate the signature
         h = hmac.new(key.encode(), msg.encode(), sha1)
         hash = base64.b64encode(h.digest())
-        
+
         return hash, salt
 
 
@@ -233,7 +234,7 @@ class Yakker:
             "Accept-Encoding": "gzip",
         }
 
-        response = requests.get(url, params=params, headers=headers)
+        response = requests.get(url, params=params, headers=headers, verify=False)
         if (self.HTTP_debugging):
             print vars(response)
         return response
@@ -249,7 +250,7 @@ class Yakker:
             "Accept-Encoding": "gzip",
         }
 
-        response = requests.post(url, data=params, params=getparams, headers=headers)
+        response = requests.post(url, data=params, params=getparams, headers=headers, verify=False)
         if (self.HTTP_debugging):
             print vars(response)
         return response

@@ -2,7 +2,7 @@ import pyak
 import yikbot
 import time
 
-yb = yikbot.YikBot()
+yb = yikbot.Yikbot()
 
 # Latitude and Longitude of location where bot should be localized
 ybLocation = pyak.Location("42.275293", "-83.738609")
