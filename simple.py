@@ -27,6 +27,7 @@ locations = {
 def timed_job():
     yakker.update_location(locations['tech'])
     yaks = yakker.get_yaks()
+    print "Found %d yaks" % len(yaks)
     for yak in yaks:
         yak.message_id = yak.message_id.replace("R/", "")
         if firebase.get('/yaks', yak.message_id): break
