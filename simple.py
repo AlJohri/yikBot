@@ -1,14 +1,15 @@
 import time
 import pyak
 import copy
+
 import requests
+requests.packages.urllib3.disable_warnings()
 
 from firebase import firebase
 firebase = firebase.FirebaseApplication('https://aljohri-nuyak.firebaseio.com', None)
 
-requests.packages.urllib3.disable_warnings()
-
-# firebase.delete("/yaks", None)
+from apscheduler.schedulers.blocking import BlockingScheduler
+sched = BlockingScheduler()
 
 def yak_to_dict(yak):
     yak_dict = copy.deepcopy(dict(yak.__dict__))
@@ -22,15 +23,15 @@ locations = {
     "tech": pyak.Location(42.057796,-87.676634)
 }
 
-while True:
+@sched.scheduled_job('interval', seconds=10)
+def timed_job():
     yakker.update_location(locations['tech'])
     yaks = yakker.get_yaks()
     for yak in yaks:
         yak.message_id = yak.message_id.replace("R/", "")
-        if firebase.get('/yaks', yak.message_id):
-            # import pdb; pdb.set_trace()
-            break
+        if firebase.get('/yaks', yak.message_id): break
         result = firebase.put(url='/yaks', name=yak.message_id, data=yak_to_dict(yak), headers={'print': 'pretty'})
         print yak.time, yak.message_id, yak.message
-    print "Sleep 10 seconds...."
-    time.sleep(10)
+    print "Sleep 10 seconds..."
+
+sched.start()
