@@ -13,6 +13,8 @@ from collections import OrderedDict
 from hashlib import sha1
 from hashlib import md5
 
+from dateutil import tz
+
 def parse_time(timestr):
     format = "%Y-%m-%d %H:%M:%S"
     return datetime.datetime.fromtimestamp(
@@ -83,6 +85,9 @@ class Comment:
             my_action = "v"
         print ("\t\t%s(%s) %s \n\n\t\tPosted  %s" % (my_action, self.likes, self.comment, self.time))
 
+from_zone = tz.gettz('GMT')
+to_zone = tz.gettz('America/Chicago')
+
 class Yak:
     def __init__(self, raw, client):
         self.client = client
@@ -99,7 +104,8 @@ class Yak:
         self.type = raw["type"]
         self.liked = int(raw["liked"])
         self.reyaked = raw["reyaked"]
-        self.gmt = datetime.datetime.fromtimestamp(raw['gmt'])
+        # import pdb; pdb.set_trace()
+        self.gmt = datetime.datetime.utcfromtimestamp(raw['gmt']).replace(tzinfo=from_zone).astimezone(to_zone)
 
         #Yaks don't always have a handle
         try:
