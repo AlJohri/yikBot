@@ -99,6 +99,7 @@ class Yak:
         self.type = raw["type"]
         self.liked = int(raw["liked"])
         self.reyaked = raw["reyaked"]
+        self.gmt = datetime.datetime.fromtimestamp(raw['gmt'])
 
         #Yaks don't always have a handle
         try:
